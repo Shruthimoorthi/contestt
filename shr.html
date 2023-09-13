@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>TASK MANAGER</title>
+    <style>
+        /* Increase the space inside input boxes */
+        input[type="text"],
+        select {
+            padding: 10px; /* Adjust the padding as needed */
+        }
+        body{
+             background-color: crimson;
+             color:wheat;
+
+        }
+        .con{
+            border: 5px solid darkslateblue;
+            margin: 10px;
+            padding: 60px;
+            padding-top: 30px;
+            padding-right: 20px;
+            padding-left: 20px;
+                }
+        .c{
+            float:right;
+        }
+    </style>
+</head>
+<body>
+    <h1 style="text-align: center;">Task Manager</h1>
+    <p style="font-style: italic; font-size: 20px; text-align:justify;">A task manager can be valuable for a beauty parlour website in several ways, helping to streamline operations, improve customer service, and enhance overall business efficiency. Here are some key points highlighting the importance of a task manager for a beauty parlour website:<br><br>
+
+        Appointment Scheduling: A task manager can assist in scheduling appointments for clients, ensuring that there are no overlapping bookings and minimizing wait times for customers.<br><br>
+        
+        Staff Management: It helps allocate tasks and appointments to staff members efficiently, ensuring that each employee's workload is balanced and manageable.<br><br>
+        
+        Customer Management: Task management can keep track of customer information, preferences, and past appointments, allowing for personalized services and better
+        customer relationships.<br><br>
+        
+        Inventory Control: It aids in monitoring the availability of beauty products and supplies, ensuring that the salon is well-stocked and reducing the risk of running out of essential items during appointments.<br><br>
+        
+        Billing and Payments: A task manager can assist in generating invoices, tracking payments, and managing financial transactions, making it easier to keep accurate records of salon revenue.<br><br>
+        
+        Deadline Tracking: For tasks related to appointments, product deliveries, or maintenance, a task manager can help the salon staff stay organized and meet deadlines efficiently.</p>
+    <br><div class="con">
+        <div class="c">
+            <img src="s1.jpg" height="250px" width="480px">
+            </div>
+        <label for="task">Task:</label>
+    <input type="text" id="task" placeholder="Task" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <label for="label">Label:</label>
+    <input type="text" id="label" placeholder="Label" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <label for="urgency">Urgency:</label>
+    <select id="urgency">
+        <option value="low">Low</option>
+        <option value="medium">Medium</option>
+        <option value="high">High</option>
+    </select><br><br><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label for="importance">Importance:</label>
+    <select id="importance">
+        <option value="low">Low</option>
+        <option value="medium">Medium</option>
+        <option value="high">High</option>
+    </select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <label for="dependentTask">Dependent on Task:</label>
+    <input type="text" id="dependentTask" placeholder="Task name" /><br><br><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label for="deadline">Deadline:</label>
+    <input type="date" id="deadline" /><br><br><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button onclick="addTask()">Add Task</button>
+    
+    
+    </div><br><br>
+
+    <h2 style="text-align: center;">TASK LIST</h2>
+    <ul id="task-list"></ul>
+
+    <script>
+        let tasks = [];
+
+        function addTask() {
+            const taskInput = document.getElementById("task");
+            const deadlineInput = document.getElementById("deadline");
+            const labelInput = document.getElementById("label");
+            const urgencyInput = document.getElementById("urgency");
+            const importanceInput = document.getElementById("importance");
+            const dependentTaskInput = document.getElementById("dependentTask");
+
+            const taskText = taskInput.value.trim();
+            const deadline = deadlineInput.value;
+            const label = labelInput.value.trim();
+            const urgency = urgencyInput.value;
+            const importance = importanceInput.value;
+            const dependentTask = dependentTaskInput.value.trim();
+
+            if (taskText !== "") {
+                const task = {
+                    text: taskText,
+                    deadline: deadline,
+                    label: label,
+                    urgency: urgency,
+                    importance: importance,
+                    dependentTask: dependentTask,
+                    completed: false,
+                };
+
+                tasks.push(task);
+                taskInput.value = "";
+                deadlineInput.value = "";
+                labelInput.value = "";
+                urgencyInput.value = "low";
+                importanceInput.value = "low";
+                dependentTaskInput.value = "";
+                displayTasks();
+            }
+        }
+
+        function toggleCompleted(index) {
+            tasks[index].completed = !tasks[index].completed;
+            displayTasks();
+        }
+
+        function deleteTask(index) {
+            tasks.splice(index, 1);
+            displayTasks();
+        }
+
+        function displayTasks() {
+            const taskList = document.getElementById("task-list");
+            taskList.innerHTML = "";
+
+            tasks.forEach((task, index) => {
+                const taskItem = document.createElement("li");
+                taskItem.innerHTML = `
+                    <span class="${task.completed ? 'completed' : ''}">
+                        ${task.text} (Deadline: ${task.deadline}, Label: ${task.label}, Urgency: ${task.urgency}, Importance: ${task.importance}, Dependent on: ${task.dependentTask})
+                    </span>
+                    <button onclick="toggleCompleted(${index})">Toggle Completed</button>
+                    <button onclick="deleteTask(${index})">Delete</button>
+                `;
+
+                taskList.appendChild(taskItem);
+            });
+        }
+
+        displayTasks();
+    </script>
+</body>
+</html>
